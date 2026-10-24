@@ -28,11 +28,7 @@ jobs:
         run: python3 patch.py
       - name: App icon
         continue-on-error: true
-        run: |
-          mkdir -p assets
-          cp icon-1024.png assets/icon-only.png
-          cp icon-1024.png assets/icon-foreground.png
-          npx --yes @capacitor/assets@3 generate --android --iconBackgroundColor '#cfe3da' --iconBackgroundColorDark '#1d2433'
+        run: unzip -o icons.zip -d android/app/src/main/res/
       - name: Sync
         run: npx cap sync android
       - name: Android SDK packages
@@ -42,7 +38,16 @@ jobs:
           sdkmanager "platforms;android-34" "build-tools;34.0.0"
       - name: Build APK
         working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
+        run: |
+          set +e
+          ./gradlew assembleDebug --no-daemon > build.log 2>&1
+          code=$?
+          tail -n 40 build.log
+          if [ $code -ne 0 ]; then
+            msg=$(grep -E "error:|What went wrong|Execution failed|not found" -A2 build.log | head -12 | tr '\n' ' ')
+            echo "::error title=Gradle failure::$msg"
+          fi
+          exit $code
       - uses: actions/upload-artifact@v4
         with:
           name: ehsas-apk
