@@ -1,6 +1,0 @@
-{
-  "appId": "com.kamva.ehsas",
-  "appName": "احساس",
-  "webDir": "www",
-  "server": { "androidScheme": "https" }
-}
