@@ -1,0 +1,6 @@
+{
+  "appId": "com.kamva.ehsas",
+  "appName": "حال‌نامه",
+  "webDir": "www",
+  "server": { "androidScheme": "https" }
+}
