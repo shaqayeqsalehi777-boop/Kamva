@@ -1,0 +1,8 @@
+{
+  "appId": "com.kamva.ehsas",
+  "appName": "پیکسل",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
